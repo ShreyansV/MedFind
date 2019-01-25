@@ -1,0 +1,14 @@
+body {
+  padding: 50px;
+  font: 14px "Comic Sans MS", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.review {padding-bottom: 0px;}
+.panel-body.review-container {padding-top: 20px;}
+.review-header {margin-bottom: 10px;}
+.reviewAuthor {margin: 0 5px;}
+.reviewTimestamp {color: #ccc;}

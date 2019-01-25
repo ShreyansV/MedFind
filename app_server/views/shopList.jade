@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  #banner.page-header
+    .row
+       .col-lg-12
+         h1= title
+          small &nbsp;#{pageHeader.strapline}
+  .row
+     .col-xs-12.col-sm-8
+       .error= message
+       .row.list-group
+         each shop in shops
+           .col-xs-12.list-group-item
+             h4
+               a(href="/shop/#{shop._id}")= shop.medicalShopName
+               span.badge.pull-right.badge-default= shop.distance
+               small &nbsp&nbsp&nbsp;
+                 p Ratings : #{shop.ratings}/5
+             p.address= shop.address
+             p
+               each x in shop.facilities
+                 span.label.label-warning= x
+                 | &nbsp;
+      .col-xs-12.col-sm-4
+        p.lead= side.text

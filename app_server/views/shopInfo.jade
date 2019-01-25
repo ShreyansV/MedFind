@@ -1,0 +1,60 @@
+mixin formatDate(dateString)
+  -var date = new Date(dateString);
+  -var monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  -var d = date.getDate();
+  -var m = monthName[date.getMonth()];
+  -var y = date.getFullYear();
+  -var output = d + ' ' + m + ' ' + y;
+  =output
+
+extends layout
+
+block content
+  .row.page-header
+    .col-sm-10
+      h1= shopDetail.medicalShopName
+    .col-sm-2
+      a.btn.btn-default(href="/shop/#{shopDetail._id}/reviews/new") Add Review
+  .row
+    .col-xs-12.col-md-9
+      .row
+        .col-xs-12.col-sm-6
+          p Ratings : #{shopDetail.ratings}/5
+          p.address= shopDetail.address
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Opening Hours
+            .panel-body
+              each location in shopDetail.openingTime
+                p= location.days + ": " + location.openingTime + " - " + location.closingTime
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Facilities
+            .panel-body
+              each x in shopDetail.facilities
+                span.label.label-warning= x
+                | &nbsp;
+        .col-xs-12.col-sm-6.location-map
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Location Map
+            .panel-body
+              img.img-responsive.img-rounded(src= shopDetail.mapLink)
+      .row
+        .col-xs-12
+          .panel.panel-primary.review-panel
+            .panel-heading
+              h2.panel-title Customer Reviews
+            .panel-body.review-container
+              each review in shopDetail.reviews
+                .row
+                  .review
+                    .well.well-sm.review-header
+                      span.rating Ratings: #{review.reviewRating}/5 &nbsp; by
+                      span.reviewAuthor #{review.reviewerName} &nbsp; on
+                      small.reviewTimestamp
+                        +formatDate(review.reviewTimeStamp)
+                    .col-sm-12
+                      p= review.reviewComment
+    .col-xs-12.col-md-3
+      p.lead= sidebar
