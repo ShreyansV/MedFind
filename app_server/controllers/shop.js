@@ -38,7 +38,7 @@ module.exports.signIn = function(req, res){
 
 /*Creating Shop Location*/
 module.exports.create = function(req, res){
-  
+
 };
 
 /*Edit Shop Details*/

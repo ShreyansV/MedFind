@@ -29,7 +29,22 @@ module.exports.signIn = function(req, res){
 
 /*Create DeliveryBoy*/
 module.exports.create = function(req, res){
-  
+  var requestOptions, path;
+	path = '/api/boyCreate/' + req.params.shopid; 
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: 'GET',
+		json: {},
+		qs: {}
+	};
+	request(requestOptions, function(err, response, body){
+		if(response.statusCode == 201){
+			res.redirect('/logindboy');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };
 
 /*Edit Delivery Boy details*/

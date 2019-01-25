@@ -182,9 +182,31 @@ var shopSchema = new mongoose.Schema({
   usePushEach: true
 });
 
+var deliveryBoySchema = new mongoose.Schema({
+  boyName: {
+    type: String,
+    required: true
+  },
+  boyPassword: {
+    type: String,
+    required: true
+  },
+  boyEmailId: {
+    type: String,
+    required: true
+  },
+  boyGrade: {
+    type: Number,
+    default: 1
+  }
+},{
+  usePushEach: true
+});
+
 mongoose.model('Medicine', medicineSchema);
 mongoose.model('Addres', addressSchema);
 mongoose.model('Order', orderSchema);
 mongoose.model('Payslip', payslipSchema);
 mongoose.model('User', userSchema);
 mongoose.model('Shop', shopSchema);
+mongoose.model('Boy', deliveryBoySchema);

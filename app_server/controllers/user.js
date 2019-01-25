@@ -85,7 +85,7 @@ module.exports.create = function(req, res){
 
 var getShopInfo = function(req, res, callback){
 	var requestOptions, path;
-	path = '/api/locations/' + req.params.locationid;
+	path = '/api/shops/' + req.params.shopid;
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "GET",
@@ -133,7 +133,7 @@ var renderHomePage = function(req, res, body){
 
 module.exports.shopList = function(req, res, next){
   var requestOptions, path;
-	path = '/api/locations';
+	path = '/api/shops';
 	requestOptions = {
 		url: apiOptions.server + path,
 		method: "GET",
