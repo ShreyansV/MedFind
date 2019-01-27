@@ -22,7 +22,6 @@ var _showError = function(req, res, statusCode){
 
 /*Shop Order History*/
 module.exports.orderHistory = function(req, res){
-  //Get order History from rest api
 	res.render('shopOrderHistory',{
 		title: 'MedFind',
 		order: body
@@ -38,17 +37,27 @@ module.exports.signIn = function(req, res){
 
 /*Creating Shop Location*/
 module.exports.create = function(req, res){
-
+  var requestOptions, path;
+	path = '/api/shopsCreate';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "POST"
+	};
+	request(requestOptions, function(err, response, body){
+		if(response.statusCode == 201){
+			res.redirect('/loginShop');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };
 
 /*Edit Shop Details*/
 module.exports.editDetails = function(req, res){
-
-  //get shop details
-
   res.render('shopEditDetails',{
 		title: 'MedFind',
-		shop: body
+		shop: shopDetails
 	});
 };
 
@@ -59,8 +68,6 @@ module.exports.confirmDetails = function(req, res){
 
 /*Show Details*/
 module.exports.showDetails = function(req, res){
-	//get shop details
-
   res.render('shopShowDetails',{
 		title: 'MedFind',
 		shop: body
@@ -81,8 +88,23 @@ module.exports.checkLogin = function(req, res){
 		res.redirect('/loginShop?err=val');
 	}
 	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
-		shopDetails = body;
-		res.redirect('/shop/:shopid/showDetails');
+		var requestOptions, path;
+		path = '/api/shops/' + req.params.email;
+		requestOptions = {
+			url: apiOptions.server + path,
+			method: "GET",
+			json: {},
+			qs: {}
+		};
+		request(requestOptions, function(err, response, shop){
+			if(response.statusCode == 200){
+				shopDetails = shop;
+				res.redirect('/shop/:shopid/showDetails');
+			}
+			else{
+				res.redirect('/loginShop?err=val');
+			}
+		});
 	}
 	else{
 		res.redirect('/loginShop?err=val');

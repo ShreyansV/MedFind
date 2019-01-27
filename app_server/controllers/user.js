@@ -25,6 +25,7 @@ module.exports.editDetails = function(req, res){
   //Fetch User Details
 	res.render('editUserDetails',{
 		title: 'MedFind',
+		user: userDetails
 	});
 };
 
@@ -35,15 +36,14 @@ module.exports.confirmDetails = function(req, res){
 
 /*show userDetails*/
 module.exports.showDetails = function(req, res){
-  //Fetch User Details
 	res.render('showUserDetails',{
-		title: 'MedFind'
+		title: 'MedFind',
+		user: userDetails
 	});
 };
 
 /*order history of user*/
 module.exports.orderHistory = function(req, res){
-  //Fetch user order history from database
 	res.render('userOrderHistory',{
 		title: 'MedFind',
 	});
@@ -63,8 +63,23 @@ module.exports.checkLogin = function(req, res){
 		res.redirect('/loginUser?err=val');
 	}
 	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
-		userDetails = body;
-		res.redirect('/user');
+		var requestOptions, path;
+    path = '/api/user/' + req.params.email;
+		requestOptions = {
+			url: apiOptions.server + path,
+			method: "GET",
+			json: {},
+			qs: {}
+		};
+		request(requestOptions, function(err, response, user){
+			if(response.statusCode == 200){
+				userDetails = user;
+				res.redirect('/user');
+			}
+			else{
+				res.redirect('/loginUser?err=val');
+			}
+		});
 	}
 	else{
 		res.redirect('/loginUser?err=val');
@@ -80,7 +95,20 @@ module.exports.signInUser = function(req, res){
 
 /*Creating New User*/
 module.exports.create = function(req, res){
-
+  var requestOptions, path;
+	path = '/api/userCreate';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "POST"
+	};
+	request(requestOptions, function(err, response, body){
+		if(response.statusCode == 201){
+			res.redirect('/loginUser');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };
 
 var getShopInfo = function(req, res, callback){

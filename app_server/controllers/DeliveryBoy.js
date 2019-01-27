@@ -30,10 +30,10 @@ module.exports.signIn = function(req, res){
 /*Create DeliveryBoy*/
 module.exports.create = function(req, res){
   var requestOptions, path;
-	path = '/api/boyCreate/' + req.params.shopid; 
+	path = '/api/boyCreate/' + req.params.shopid;
 	requestOptions = {
 		url: apiOptions.server + path,
-		method: 'GET',
+		method: 'POST',
 		json: {},
 		qs: {}
 	};
@@ -49,7 +49,6 @@ module.exports.create = function(req, res){
 
 /*Edit Delivery Boy details*/
 module.exports.editDetails = function(req, res){
-  //Fetch Details of Boy
 	res.render('editBoyDetails',{
 		title: 'MedFind'
 	});
@@ -62,7 +61,6 @@ module.exports.confirmDetails = function(req, res){
 
 /*Work Details of the delivery boy*/
 module.exports.workDetails = function(req, res){
-  //Fetch orders for him
 	res.render('boyDetails',{
 		title: 'MedFind'
 	});
@@ -93,13 +91,28 @@ module.exports.login = function(req, res){
 
 /*Checking Credentials*/
 module.exports.checkLogin = function(req, res){
-  //Fetch boy details
 	if(!body){
 		res.redirect('/logindboy?err=val');
 	}
 	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
-		boyDetails = body;
-		res.redirect('/dboy/:dboyid/workDetails');
+    var requestOptions, path;
+		path = '/api/dboyDetails/' + req.params.email;
+		requestOptions = {
+      url: apiOptions.server + path,
+			json: {},
+			qs: {},
+			method: "GET"
+		};
+		request(requestOptions, function(err, body, response){
+			if(response.statusCode == 200){
+				boyDetails = body;
+				console.log(boyDetails);
+				res.redirect('/dboy/:dboyid/workDetails');
+			}
+			else{
+				res.redirect('/logindboy?err=val');
+			}
+		});
 	}
 	else{
 		res.redirect('/logindboy?err=val');

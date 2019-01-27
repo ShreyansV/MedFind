@@ -26,8 +26,18 @@ var theEarth = (function(){
   };
 })();
 
-module.exports.getShopDetails = function(req, res){
-
+module.exports.getDetails = function(req, res){
+  shop.findById().select('shopEmailId').exec(function(err, shop){
+    if(!shop){
+      sendJsonResponse(res, 404, {"message": "Shop not found"});
+      return;
+    }
+    else if(err){
+      sendJsonResponse(res, 400, err);
+      return;
+    }
+    sendJsonResponse(res, 200, user);
+  });
 };
 
 module.exports.addMedicines = function(req, res){

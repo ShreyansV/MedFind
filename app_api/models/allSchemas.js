@@ -81,7 +81,10 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userOrders: [orderSchema],
+  userOrders: {
+    type: [orderSchema],
+    "default": []
+  },
   userAddress: {
     type: [addressSchema],
     required: true
@@ -139,7 +142,8 @@ var shopSchema = new mongoose.Schema({
     required: true
   },
   shopEmailID:{
-    type: String
+    type: String,
+    required: true
   },
   shopPassword:{
     type: String,
@@ -154,7 +158,7 @@ var shopSchema = new mongoose.Schema({
     required: true,
     "default": 0,
     min: 0,
-    max: 0
+    max: 5
   },
   facilities: [String],
   coords: {

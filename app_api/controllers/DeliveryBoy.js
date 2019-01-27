@@ -14,18 +14,23 @@ var sendJsonResponse = function(res, status, content){
 }
 
 module.exports.createAccount = function(req, res){
-  //duplicacy check
-  boy.findById().select('boyEmailId').exec(function(err, boy){
-    if(!boy){
-      //create account
-    }
-    else if(err){
-      sendJsonResponse(res, 400, err);
-    }
-    else{
-      sendJsonResponse(res, 300, {"message": "Duplicate Record"});
-    }
-  });
+  if(!(req.body.name || req.body.password || req.body.email)){
+    sendJsonResponse(res, 400, {"message": "Details not filled properly"});
+  }
+  else{
+    boy.create({
+      boyName: req.body.name,
+      boyPassword: req.body.password,
+      boyEmailId: req.body.email
+    }, function(err, boy){
+      if(err){
+        sendJsonResponse(res, 404, err);
+      }
+      else{
+        sendJsonResponse(res, 201, boy);
+      }
+    });
+  }
 };
 
 module.exports.showDeliveryLocations = function(req, res){
@@ -34,6 +39,21 @@ module.exports.showDeliveryLocations = function(req, res){
 
 module.exports.editDeliveryBoyDetails = function(req, res){
 
+};
+
+module.exports.getDetails = function(req, res){
+  //get Delivery Boy Details
+  boy.findById().select('boyEmailId').exec(function(err, body){
+    if(!boy){
+      sendJsonResponse(res, 404, {"message": "Record Not Found"});
+      return;
+    }
+    else if(err){
+      sendJsonResponse(res, 400, {"message": "Error"});
+      return;
+    }
+    sendJsonResponse(res, 200, body);
+  });
 };
 
 module.exports.showSalaryHistory = function(req, res){
