@@ -12,6 +12,8 @@ router.get('/shops/:shopEmailId', ctrlShop.getDetails);
 router.get('/shops/:shopid', ctrlShop.shopReadOne);
 router.put('/shops/:shopid', ctrlShop.shopUpdateOne);
 router.delete('/shops/:shopid', ctrlShop.shopDeleteOne);
+router.post('/shop/:shopid/addMedicine', ctrlShop.addMedicines);
+router.post('/shop/:shopid/confirmDetails', ctrlShop.confirmDetails);
 
 // reviews
 router.post('/shops/:shopid/reviews', ctrlReviews.reviewsCreate);
@@ -26,5 +28,8 @@ router.get('/dboyDetails/:boyEmailId', ctrlBoy.getDetails);
 //User Details
 router.get('/user/:userEmailId', ctrlUser.getDetails);
 router.post('/userCreate', ctrlUser.create);
+router.put('/userEditDetails', ctrlUser.editUserDetails);
+router.get('/user/:userid/getOrderHistory', ctrlUser.showUserOrderHistory);
+router.delete('/user/:userid/delete', ctrlUser.delete);
 
 module.exports = router;

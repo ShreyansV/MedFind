@@ -1,10 +1,6 @@
 var mongoose = require('mongoose');
 
-var medicines = mongoose.model('Medicine');
-var address = mongoose.model('Addres');
-var order = mongoose.model('Order');
 var user = mongoose.model('User');
-var shop = mongoose.model('Shop');
 
 var sendJsonResponse = function(res, status, content){
   res.status(status);
@@ -48,14 +44,65 @@ module.exports.create = function(req, res){
   }
 };
 
-module.exports.showMedicinesAtShop = function(req, res){
-
-};
-
+/*Edit User Details*/
 module.exports.editUserDetails = function(req, res){
-
+  user.findById(req.body._id).exec(function(err, userDetails){
+    if(!user){
+      sendJsonResponse(res, 404, {"message": "User Not Found"});
+    }
+    else if(err){
+      sendJsonResponse(res, 400, err);
+    }
+    else{
+      userDetails.userName = req.body.name;
+      userDetails.userPassword = req.body.password;
+      userDetails.userEmailId = req.body.email;
+      userDetails.userAddress = req.body.address;
+      userDetails.save(function(err, user){
+        if(err){
+          sendJsonResponse(res, 400, err);
+        }
+        else{
+          sendJsonResponse(res, 202, user);
+        }
+      });
+    }
+  });
 };
 
+/*Show User Order History*/
 module.exports.showUserOrderHistory = function(req, res){
+  if(!req.params.userid){
+    sendJsonResponse(res, 404, {"message": "User Not Found"});
+  }
+  else{
+    user.findById(req.params.userid).select('userOrders').exec(function(err, orders){
+      if(!orders){
+        sendJsonResponse(res, 404, {"message": "Orders not found"});
+      }
+      else if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else{
+        sendJsonResponse(res, 200, orders);
+      }
+    });
+  }
+};
 
+/*Deleting User*/
+module.exports.delete = function(req, res){
+  if(req.params.userid){
+    user.findByIdAndRemove(req.params.userid).exec(function(err, user){
+      if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else{
+        sendJsonResponse(res, 204, null);
+      }
+    });
+  }
+  else{
+    sendJsonResponse(res, 404, {"message": "Userid not found"});
+  }
 };

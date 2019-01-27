@@ -22,7 +22,6 @@ var _showError = function(req, res, statusCode){
 
 /*userDetails Page*/
 module.exports.editDetails = function(req, res){
-  //Fetch User Details
 	res.render('editUserDetails',{
 		title: 'MedFind',
 		user: userDetails
@@ -31,7 +30,21 @@ module.exports.editDetails = function(req, res){
 
 /*confirm Details*/
 module.exports.confirmDetails = function(req, res){
-
+  var requestOptions, path;
+	path = '/api/userEditDetails/';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: 'PUT',
+	};
+	request(requestOptions, function(err, response, body){
+		if(response.statusCode == 202){
+			userDetails = body;
+			res.redirect('/user');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };
 
 /*show userDetails*/
@@ -44,8 +57,22 @@ module.exports.showDetails = function(req, res){
 
 /*order history of user*/
 module.exports.orderHistory = function(req, res){
-	res.render('userOrderHistory',{
-		title: 'MedFind',
+  var requestOptions, path;
+	path = '/api/user/' + req.body._id + '/getOrderHistory';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: 'GET'
+	};
+	request(requestOptions, function(err, response, orders){
+		if(response.statusCode == 200){
+			res.render('userOrderHistory',{
+				title: 'MedFind',
+				orderHistory: orders
+			});
+		}
+		else{
+      _showError(req, res, response.statusCode);
+		}
 	});
 };
 
@@ -260,5 +287,19 @@ module.exports.doAddReview = function(req, res){
 
 /*Deleting User*/
 module.exports.delete = function(req, res){
-
+  var requestOptions, path;
+	path = '/api/user/' + req.params.userid + '/delete';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "DELETE"
+ 	};
+	request(requestOptions, function(err, response, data){
+		if(response.statusCode == 204){
+			userDetails = {};
+			res.redirect('/loginUser');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };

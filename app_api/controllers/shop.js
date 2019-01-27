@@ -41,14 +41,56 @@ module.exports.getDetails = function(req, res){
 };
 
 module.exports.addMedicines = function(req, res){
-
+  if(req.params.shopid){
+    shop.findById(req.params.shopid).select('shopMedicines').exec(function(err, medicines){
+      if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else{
+        medicines.shopMedicines.push({
+          medicineName: req.body.name,
+          manufacturingCompany: req.body.company,
+          pricePerGram: req.body.price
+        });
+        shop.save(function(err, shopDetails){
+          if(err){
+            sendJsonResponse(res, 400, err);
+          }
+          else{
+            sendJsonResponse(res, 202, shopDetails);
+          }
+        });
+      }
+    });
+  }
+  else{
+    sendJsonResponse(res, 404, {"message": "Shop Not Found"});
+  }
 };
 
-module.exports.editShopDetails = function(req, res){
-
+module.exports.confirmDetails = function(req, res){
+  shop.findById(req.params.shopid).exec(function(err, shopDetails){
+    if(!shopDetails){
+      sendJsonResponse(res, 404, {"message": "Location not found"});
+    }
+    else if(err){
+      sendJsonResponse(res, 400, err);
+    }
+    else{
+      //save shop values
+      shop.save(function(err, shopDetails){
+        if(err){
+          sendJsonResponse(res, 400, err);
+        }
+        else{
+          sendJsonResponse(res, 203, shopDetails);
+        }
+      });
+    }
+  });
 };
 
-module.exports.showShopOrderHistory = function(req, res){
+module.exports.showMedicinesAtShop = function(req, res){
 
 };
 

@@ -62,7 +62,8 @@ var medicineSchema = new mongoose.Schema({
     required: true
   },
   pricePerGram:{
-    type: Number
+    type: Number,
+    required: true
   }
 },{
   usePushEach: true

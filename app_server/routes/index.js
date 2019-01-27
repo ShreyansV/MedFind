@@ -4,7 +4,6 @@ var router = express.Router();
 var ctrlMain = require('../controllers/main');
 var ctrlOthers = require('../controllers/others');
 var ctrlOrder = require('../controllers/order');
-var ctrlMedicine = require('../controllers/medicine');
 var ctrlUser = require('../controllers/user');
 var ctrlShop = require('../controllers/shop');
 var ctrlBoy = require('../controllers/DeliveryBoy');
@@ -15,9 +14,8 @@ router.get('/loginShop', ctrlShop.login);//
 router.get('/user/:shopid/editDetails', ctrlShop.editDetails);//
 router.get('/shop/:shopid/showDetails', ctrlShop.showDetails);//
 router.get('/shop/:shopid/orderHistory', ctrlShop.orderHistory);//
+router.get('/shop/:shopid/addMedicines', ctrlShop.medicineForm);
 router.get('/user/:userid/:shopid/order',ctrlOrder.order);//
-router.get('/user/:shopid/findMedicine', ctrlMedicine.findMedicine);
-router.get('/shop/:shopid/addMedicines', ctrlMedicine.medicineForm);//
 router.get('/user', ctrlUser.shopList);//
 router.get('/shop/:shopid/reviews/new', ctrlUser.addReview);//
 router.get('/user/:shopid', ctrlUser.shopInfo);//
@@ -36,7 +34,7 @@ router.get('/about',ctrlOthers.about);//
 
 router.post('/loginShop', ctrlShop.checkLogin);//
 router.post('/signInShop', ctrlShop.create);
-router.post('/shop/:shopid/addMedicines', ctrlMedicine.addMedicine);
+router.post('/shop/:shopid/addMedicines', ctrlShop.addMedicine);
 router.post('/signInDboy', ctrlBoy.create);
 router.post('/logindboy', ctrlBoy.checkLogin);//
 router.post('/loginUser', ctrlUser.checkLogin);//

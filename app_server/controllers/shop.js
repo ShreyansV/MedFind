@@ -24,7 +24,7 @@ var _showError = function(req, res, statusCode){
 module.exports.orderHistory = function(req, res){
 	res.render('shopOrderHistory',{
 		title: 'MedFind',
-		order: body
+		order: shopDetails.shopOrders
 	});
 };
 
@@ -63,14 +63,54 @@ module.exports.editDetails = function(req, res){
 
 /*Confirm Shop Details*/
 module.exports.confirmDetails = function(req, res){
+  var requestOptions, path;
+	path = '/api/shop/' + req.params.shopid + '/confirmDetails';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: "POST"
+	};
+	request(requestOptions, function(err, response, body){
+		if(response.statusCode == 203){
+			shopDetails = body;
+			res.redirect('/shop/' + shopDetails._id + '/showDetails');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
+};
 
+/*medicine form page*/
+module.exports.medicineForm = function(req, res){
+  res.render('addMedicine',{
+		title: 'MedFind',
+		shopDetails: shopDetails
+	});
+};
+
+/*Add Medicines to the shop*/
+module.exports.addMedicine = function(req, res){
+  var requestOptions, path;
+	path = '/api/shop/' + req.params.shopid + '/addMedicine';
+	requestOptions = {
+		url: apiOptions.server + path,
+		method: 'POST'
+	};
+	request(requestOptions, function(err, response, body){
+    if(response.statusCode == 202){
+			res.redirect('/shop/' + req.params.shopid + '/details');
+		}
+		else{
+			_showError(req, res, response.statusCode);
+		}
+	});
 };
 
 /*Show Details*/
 module.exports.showDetails = function(req, res){
   res.render('shopShowDetails',{
 		title: 'MedFind',
-		shop: body
+		shop: shopDetails
 	});
 };
 
@@ -84,7 +124,7 @@ module.exports.login = function(req, res){
 /*Verify Credentials*/
 module.exports.checkLogin = function(req, res){
   //Fetch Shop Details
-	if(!body){
+	if(!req.body){
 		res.redirect('/loginShop?err=val');
 	}
 	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
@@ -111,12 +151,25 @@ module.exports.checkLogin = function(req, res){
 	}
 };
 
-/*Deleting User*/
+/*Deleting Shop*/
 module.exports.delete = function(req, res){
-
+  var requestOptions, path;
+	path = '/api/shops/' + req.params.shopid;
+	requestOptions = {
+    url: apiOptions.server + path,
+		method: "DELETE"
+	};
+	request(requestOptions, function(err, response, data){
+		if(response.statusCode == 204){
+			res.redirect('/entry');
+		}
+		else{
+      _showError(req, res, response.statusCode);
+		}
+	});
 };
 
-/*Deleting User*/
+/*Deleting Medicine at shop*/
 module.exports.deleteMedicine = function(req, res){
 
 };
