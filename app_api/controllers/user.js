@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 
 var user = mongoose.model('User');
+var shop = mongoose.model('Shop');
+var boy = mongoose.model('Boy');
 
 var sendJsonResponse = function(res, status, content){
   res.status(status);
@@ -104,5 +106,50 @@ module.exports.delete = function(req, res){
   }
   else{
     sendJsonResponse(res, 404, {"message": "Userid not found"});
+  }
+};
+
+/*Placing Order for user*/
+module.exports.placeOrder = function(req, res){
+  if(req.params.userid && req.params.shopid){
+    user.findById(req.params.userid).exec(function(err, userDetails){
+      if(!userDetails){
+        sendJsonResponse(res, 404, {'message': 'User Not Found'});
+      }
+      else if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else{
+        shop.findById(req.params.shopid).exec(function(err, shopDetails){
+          if(!shopDetails){
+            sendJsonResponse(res, 404, {'message': 'Shop Not Found'});
+          }
+          else if(err){
+            sendJsonResponse(res, 400, err);
+          }
+          else{
+            //save order in shop
+            shopDetails.save(function(err, shopOrder){
+              if(err){
+                sendJsonResponse(res, 400, err);
+              }
+              else{
+                userDetails.save(function(err, userOrder){
+                  if(err){
+                    sendJsonResponse(res, 400, err);
+                  }
+                  else{
+                    sendJsonResponse(res, 201, userOrder);
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  else{
+    sendJsonResponse(res, 404, {"message": "Wrong URL"});
   }
 };

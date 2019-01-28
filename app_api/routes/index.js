@@ -3,7 +3,7 @@ var router = express.Router();
 var ctrlShop = require('../controllers/shop');
 var ctrlReviews = require('../controllers/reviews');
 var ctrlBoy = require('../controllers/DeliveryBoy');
-var ctrlUser = require('../controllers/users');
+var ctrlUser = require('../controllers/user');
 
 // Shop
 router.get('/shops', ctrlShop.shopListByDistance);
@@ -33,5 +33,6 @@ router.put('/userEditDetails', ctrlUser.editUserDetails);
 router.get('/user/:userid/getOrderHistory', ctrlUser.showUserOrderHistory);
 router.delete('/user/:userid/delete', ctrlUser.delete);
 router.get('/checkUserLogin', ctrlUser.checkLogin);
+router.post('/user/:userid/:shopid/placeOrder', ctrlUser.placeOrder);
 
 module.exports = router;

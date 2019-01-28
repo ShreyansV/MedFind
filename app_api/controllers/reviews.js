@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 var loc = mongoose.model('Shop');
 
 var sendJsonResponse = function(res, status, content){

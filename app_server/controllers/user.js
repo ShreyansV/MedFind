@@ -20,6 +20,34 @@ var _showError = function(req, res, statusCode){
 	});
 };
 
+module.exports.order = function(req, res){
+	res.render('orderPage',{
+		title: 'MedFind'
+	});
+};
+
+/*Place Order Page*/
+module.exports.placeOrder = function(req, res){
+  if(req.params.userid && req.params.shopid){
+    var requestOptions, path;
+		path = '/api/user/' + req.params.userid + '/' + req.params.shopid + '/placeOrder';
+		requestOptions = {
+			url: apiOptions.server + path,
+			method: "POST"
+		};
+
+		request(requestOptions, function(err, response, data){
+			if(response.statusCode == 201){
+				userDetails.userOrders = data;
+			}
+			res.redirect('/user/' + req.params.userid + '/' + req.params.shopid + '/order');
+		});
+	}
+	else{
+		res.redirect('/user/' + req.params.userid + '/' + req.params.shopid + '/order');
+	}
+};
+
 /*userDetails Page*/
 module.exports.editDetails = function(req, res){
 	res.render('editUserDetails',{
