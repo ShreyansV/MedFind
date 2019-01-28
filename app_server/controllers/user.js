@@ -86,21 +86,16 @@ module.exports.login = function(req, res){
 /*Verify Login Credentials*/
 module.exports.checkLogin = function(req, res){
   //Fetch details of user
-	if(!body){
-		res.redirect('/loginUser?err=val');
-	}
-	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
+	if(req.body.email && req.body.password){
 		var requestOptions, path;
-    path = '/api/user/' + req.params.email;
+		path = '/api/checkUserLogin';
 		requestOptions = {
 			url: apiOptions.server + path,
-			method: "GET",
-			json: {},
-			qs: {}
+			method: "GET"
 		};
-		request(requestOptions, function(err, response, user){
+		request(requestOptions, function(err, response, shop){
 			if(response.statusCode == 200){
-				userDetails = user;
+				shopDetails = shop;
 				res.redirect('/user');
 			}
 			else{
@@ -109,7 +104,7 @@ module.exports.checkLogin = function(req, res){
 		});
 	}
 	else{
-		res.redirect('/loginUser?err=val');
+	  res.redirect('/loginUser?err=val');
 	}
 };
 

@@ -8,12 +8,13 @@ var ctrlUser = require('../controllers/users');
 // Shop
 router.get('/shops', ctrlShop.shopListByDistance);
 router.post('/shopsCreate', ctrlShop.shopCreate);
-router.get('/shops/:shopEmailId', ctrlShop.getDetails);
 router.get('/shops/:shopid', ctrlShop.shopReadOne);
 router.put('/shops/:shopid', ctrlShop.shopUpdateOne);
 router.delete('/shops/:shopid', ctrlShop.shopDeleteOne);
 router.post('/shop/:shopid/addMedicine', ctrlShop.addMedicines);
 router.post('/shop/:shopid/confirmDetails', ctrlShop.confirmDetails);
+router.get('/checkShopLogin', ctrlShop.checkLogin);
+router.get('/shop/:shopid/:medicineid/deleteMedicine', ctrlShop.deleteMedicine);
 
 // reviews
 router.post('/shops/:shopid/reviews', ctrlReviews.reviewsCreate);
@@ -23,13 +24,14 @@ router.delete('/shops/:shopid/reviews/:reviewid', ctrlReviews.reviewsDeleteOne);
 
 //Delivery Boy
 router.post('/boyCreate', ctrlBoy.createAccount);
-router.get('/dboyDetails/:boyEmailId', ctrlBoy.getDetails);
+router.get('/checkboyLogin', ctrlBoy.checkLogin);
+router.post('/boy/:boyid/confirmDetails', ctrlBoy.editDeliveryBoyDetails);
 
 //User Details
-router.get('/user/:userEmailId', ctrlUser.getDetails);
 router.post('/userCreate', ctrlUser.create);
 router.put('/userEditDetails', ctrlUser.editUserDetails);
 router.get('/user/:userid/getOrderHistory', ctrlUser.showUserOrderHistory);
 router.delete('/user/:userid/delete', ctrlUser.delete);
+router.get('/checkUserLogin', ctrlUser.checkLogin);
 
 module.exports = router;

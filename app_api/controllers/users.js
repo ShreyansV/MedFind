@@ -8,7 +8,7 @@ var sendJsonResponse = function(res, status, content){
 }
 
 /*Get User Details*/
-module.exports.getDetails = function(req, res){
+module.exports.checkLogin = function(req, res){
   user.findById().select('userEmail').exec(function(err, user){
     if(!user){
       sendJsonResponse(res, 404, {"message": "User Not Found"});

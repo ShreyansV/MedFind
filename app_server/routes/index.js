@@ -14,7 +14,8 @@ router.get('/loginShop', ctrlShop.login);//
 router.get('/user/:shopid/editDetails', ctrlShop.editDetails);//
 router.get('/shop/:shopid/showDetails', ctrlShop.showDetails);//
 router.get('/shop/:shopid/orderHistory', ctrlShop.orderHistory);//
-router.get('/shop/:shopid/addMedicines', ctrlShop.medicineForm);
+router.get('/shop/:shopid/addMedicines', ctrlShop.medicineForm);//
+router.get('/shop/:shopid/showMedicines', ctrlShop.showMedicinesAtShop);//
 router.get('/user/:userid/:shopid/order',ctrlOrder.order);//
 router.get('/user', ctrlUser.shopList);//
 router.get('/shop/:shopid/reviews/new', ctrlUser.addReview);//
@@ -28,8 +29,7 @@ router.get('/logindboy', ctrlBoy.login);//
 router.get('/signInDboy', ctrlBoy.signIn);//
 router.get('/dboy/:dboyid/editDetails', ctrlBoy.editDetails);//
 router.get('/dboy/:dboyid/workDetails', ctrlBoy.workDetails);//
-router.get('/dboy/:dboy/payslipPage', ctrlBoy.payslipPage);//
-router.get('/dboy/:dboy/payslipPage/:payslip', ctrlBoy.showPayslip);
+router.get('/dboy/:dboyid/payslipPage', ctrlBoy.showPayslip);
 router.get('/about',ctrlOthers.about);//
 
 router.post('/loginShop', ctrlShop.checkLogin);//

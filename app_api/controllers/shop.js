@@ -26,7 +26,7 @@ var theEarth = (function(){
   };
 })();
 
-module.exports.getDetails = function(req, res){
+module.exports.checkLogin = function(req, res){
   shop.findById().select('shopEmailId').exec(function(err, shop){
     if(!shop){
       sendJsonResponse(res, 404, {"message": "Shop not found"});
@@ -88,10 +88,6 @@ module.exports.confirmDetails = function(req, res){
       });
     }
   });
-};
-
-module.exports.showMedicinesAtShop = function(req, res){
-
 };
 
 module.exports.shopCreate = function (req, res) {
@@ -232,5 +228,37 @@ module.exports.shopDeleteOne = function (req, res) {
   }
   else{
     sendJsonResponse(res, 404, {"message": "locationid not found"});
+  }
+};
+
+module.exports.deleteMedicine = function(req, res){
+  if(!(req.params.shopid || req.params.medicineid)){
+    sendJsonResponse(res, 404, {"message": "Data Not Found"});
+  }
+  else{
+    shop.findById(req.params.shopid).select('shopMedicines').exec(function(err, shopFound){
+      if(!medicines){
+        sendJsonResponse(res, 404, {"message": "Medicine Not Found"});
+      }
+      else if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else{
+        if(shopFound.shopMedicines && shopFound.shopMedicines.length > 0 && shopFound.shopMedicines.id(req.params.medicineid)){
+          shopFound.shopMedicines.id(req.params.medicineid).remove();
+          shopFound.save(function(err, response){
+            if(err){
+              sendJsonResponse(res, 400, err);
+            }
+            else{
+              sendJsonResponse(res, 204, response);
+            }
+          });
+        }
+        else{
+          sendJsonResponse(res, 404, {"message": "Medicine not found"});
+        }
+      }
+    });
   }
 };

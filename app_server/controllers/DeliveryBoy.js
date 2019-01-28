@@ -50,35 +50,54 @@ module.exports.create = function(req, res){
 /*Edit Delivery Boy details*/
 module.exports.editDetails = function(req, res){
 	res.render('editBoyDetails',{
-		title: 'MedFind'
+		title: 'MedFind',
+		boyDetails: boyDetails
 	});
 };
 
 /*Update Delivery boy details*/
 module.exports.confirmDetails = function(req, res){
-
+  if(req.params.dboyid){
+    var requestOptions, path;
+		path = '/api/boy/' + req.params.dboyid + '/confirmDetails';
+		requestOptions = {
+			url: apiOptions.server + path,
+			method: "POST"
+		};
+		request(requestOptions, function(err, response, data){
+			if(response.statusCode == 202){
+				boyDetails = data;
+				res.redirect('/dboy/' + boyDetails._id + '/workDetails');
+			}
+			else{
+				res.render('editBoyDetails',{
+					title: 'MedFind',
+					boyDetails: boyDetails
+				});
+			}
+		});
+	}
+	else{
+		res.render('editBoyDetails',{
+			title: 'MedFind',
+			boyDetails: boyDetails
+		});
+	}
 };
 
 /*Work Details of the delivery boy*/
 module.exports.workDetails = function(req, res){
 	res.render('boyDetails',{
-		title: 'MedFind'
-	});
-};
-
-/*Payslip page*/
-module.exports.payslipPage = function(req, res){
-  //Fetch the details of Payslip page
-	res.render('payslipForm',{
-		title: 'MedFind'
+		title: 'MedFind',
+		orders: boyDetails.boyOrders
 	});
 };
 
 /*Show Payslip Date-wise*/
 module.exports.showPayslip = function(req, res){
-  //Fetch the payslip details
 	res.render('showPayslip',{
-		title: 'MedFind'
+		title: 'MedFind',
+		payslips: boyDetails.boyPayslips
 	});
 };
 
@@ -91,23 +110,17 @@ module.exports.login = function(req, res){
 
 /*Checking Credentials*/
 module.exports.checkLogin = function(req, res){
-	if(!body){
-		res.redirect('/logindboy?err=val');
-	}
-	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
-    var requestOptions, path;
-		path = '/api/dboyDetails/' + req.params.email;
+	if(req.body.email && req.body.password){
+		var requestOptions, path;
+		path = '/api/checkBoyLogin';
 		requestOptions = {
-      url: apiOptions.server + path,
-			json: {},
-			qs: {},
+			url: apiOptions.server + path,
 			method: "GET"
 		};
-		request(requestOptions, function(err, body, response){
+		request(requestOptions, function(err, response, shop){
 			if(response.statusCode == 200){
-				boyDetails = body;
-				console.log(boyDetails);
-				res.redirect('/dboy/:dboyid/workDetails');
+				shopDetails = shop;
+				res.redirect('/dboy/' + boyDetails._id + '/workDetails');
 			}
 			else{
 				res.redirect('/logindboy?err=val');
@@ -115,7 +128,7 @@ module.exports.checkLogin = function(req, res){
 		});
 	}
 	else{
-		res.redirect('/logindboy?err=val');
+	  res.redirect('/logindboy?err=val');
 	}
 };
 

@@ -106,6 +106,14 @@ module.exports.addMedicine = function(req, res){
 	});
 };
 
+/*Show medicines in the shop*/
+module.exports.showMedicinesAtShop = function(req, res){
+	res.render('showMedicines',{
+		title: 'MedFind',
+		medicines: shopDetails.shopMedicines
+	});
+};
+
 /*Show Details*/
 module.exports.showDetails = function(req, res){
   res.render('shopShowDetails',{
@@ -123,23 +131,17 @@ module.exports.login = function(req, res){
 
 /*Verify Credentials*/
 module.exports.checkLogin = function(req, res){
-  //Fetch Shop Details
-	if(!req.body){
-		res.redirect('/loginShop?err=val');
-	}
-	else if((body.userName == req.body.name || body.userName == req.body.email) && body.userPassword == req.body.password){
+	if(req.body.email && req.body.password){
 		var requestOptions, path;
-		path = '/api/shops/' + req.params.email;
+		path = '/api/checkShopLogin';
 		requestOptions = {
 			url: apiOptions.server + path,
-			method: "GET",
-			json: {},
-			qs: {}
+			method: "GET"
 		};
 		request(requestOptions, function(err, response, shop){
 			if(response.statusCode == 200){
 				shopDetails = shop;
-				res.redirect('/shop/:shopid/showDetails');
+				res.redirect('/shop/' + shopDetails._id + '/showDetails');
 			}
 			else{
 				res.redirect('/loginShop?err=val');
@@ -147,7 +149,7 @@ module.exports.checkLogin = function(req, res){
 		});
 	}
 	else{
-		res.redirect('/loginShop?err=val');
+	  res.redirect('/loginShop?err=val');
 	}
 };
 
@@ -171,5 +173,24 @@ module.exports.delete = function(req, res){
 
 /*Deleting Medicine at shop*/
 module.exports.deleteMedicine = function(req, res){
-
+  if(!(req.params.shopid || req.params.medicineid)){
+		res.redirect('/shop/' + shopDetails._id + '/showMedicines?err=val');
+	}
+	else{
+     var requestOptions, path;
+		 path = '/api/shop/' + shopDetails._id + '/' + req.params.medicineid + '/deleteMedicine';
+		 requestOptions = {
+			 url: apiOptions.server + path,
+			 method: "DELETE"
+		 };
+		 request(requestOptions, function(err, response, medicines){
+			 if(response.statusCode == 204){
+				 shopDetails.shopMedicines = medicines;
+				 res.redirect('/shop/' + shopDetails._id + '/showMedicines?err=val');
+			 }
+			 else{
+				 _showError(req, res, response.statusCode);
+			 }
+		 });
+	}
 };

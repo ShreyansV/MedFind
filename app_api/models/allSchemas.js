@@ -203,6 +203,14 @@ var deliveryBoySchema = new mongoose.Schema({
   boyGrade: {
     type: Number,
     default: 1
+  },
+  boyOrders: {
+    type: [orderSchema],
+    "default": []
+  },
+  boyPayslips: {
+    type: [payslipSchema],
+    "default": []
   }
 },{
   usePushEach: true

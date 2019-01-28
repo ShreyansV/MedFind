@@ -33,15 +33,34 @@ module.exports.createAccount = function(req, res){
   }
 };
 
-module.exports.showDeliveryLocations = function(req, res){
-
-};
-
 module.exports.editDeliveryBoyDetails = function(req, res){
-
+  if(req.params.boyid){
+    boy.findById(req.params.boyid).exec(function(err, boyFound){
+      if(err){
+        sendJsonResponse(res, 400, err);
+      }
+      else if(!boyFound){
+        sendJsonResponse(res, 404, {"message": "Boy Details Not Found"});
+      }
+      else{
+        //update values
+        boyFound.save(function(err, boySaved){
+          if(err){
+            sendJsonResponse(res, 400, err);
+          }
+          else{
+            sendJsonResponse(res, 202, boySaved);
+          }
+        });
+      }
+    });
+  }
+  else{
+    sendJsonResponse(res, 404, {"message": "Boy Details not found"});
+  }
 };
 
-module.exports.getDetails = function(req, res){
+module.exports.checkLogin = function(req, res){
   //get Delivery Boy Details
   boy.findById().select('boyEmailId').exec(function(err, body){
     if(!boy){
@@ -54,8 +73,4 @@ module.exports.getDetails = function(req, res){
     }
     sendJsonResponse(res, 200, body);
   });
-};
-
-module.exports.showSalaryHistory = function(req, res){
-
 };
