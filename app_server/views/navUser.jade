@@ -1,0 +1,13 @@
+extends layout
+
+block navigator
+  .col-xs-4
+    .button-group-vertical
+      button.btn-btn-primary.center-block(formaction='/user', formmethod='get') Shops Near You
+      button.btn.btn-primary.center-block(formaction='/user/#{userDetails._id}/orderHistory', formmethod='get') Past Orders
+      button.btn.btn-primary.center-block(formaction='/user/#{userDetails._id}/showDetails', formmethod='get') Personal Details
+      button.btn.btn-primary.center-block(formaction='/user/#{userDetails._id}/editDetails', formmethod='get') Edit Personal Details
+      button.btn.btn-danger.center-block(formaction='/user/#{userDetails._id}/delete', formaction='delete') Delete Account
+      button.btn.btn-primary.center-block(formaction='/user/#{userDetails._id}/logout', formmethod='get') Logout
+  .col-xs-8
+    block content

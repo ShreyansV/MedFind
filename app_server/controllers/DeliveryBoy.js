@@ -47,6 +47,14 @@ module.exports.create = function(req, res){
 	});
 };
 
+/*Show Details*/
+module.exports.showDetails = function(req, res){
+	res.render('showBoyDetails',{
+		title: 'MedFind',
+		boyDetails: boyDetails
+	});
+};
+
 /*Edit Delivery Boy details*/
 module.exports.editDetails = function(req, res){
 	res.render('editBoyDetails',{

@@ -1,0 +1,13 @@
+extends layout
+
+block navigator
+  .col-xs-4
+    .btn-group-vertical
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/workDetails', formmethod='get') Work Details
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/showDetails', formmethod='get') Show Personal Details
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/editDetails', formmethod='get') Edit Personal Details
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/payslipPage', formmethod='get') Show PaySlips
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/delete', formmethod='delete') Delete Account
+      button.btn.btn-primary.center-block(formaction='/dboy/#{boyDetails._id}/logout', formmethod='get') Logout
+  .col-xs-8
+    block content

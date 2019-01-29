@@ -1,10 +1,15 @@
 extends layout
 
-block content
-  #banner.page-header
-    .row
-      .col-lg-12
-        h1 Login Page
-    .row
-      .col-lg-12
-        
+block navigator
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='UserSignIn' formaction='/loginUser' formmethod='get') SignIn as User
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='UserSignUp' formaction='/signInUser' formmethod='get') SignUp as User
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='ShopSignIn' formaction='/loginShop' formmethod='get') SignIn as Shop
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='ShopSignUp' formaction='/signInShop' formmethod='get') SignUp as Shop
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='DBoySignIn' formaction='/logindboy' formmethod='get') SignIn as Delivery Boy
+  .row.col-xs-12
+    button.btn.btn-info.center-block(name='DBoySignUp' formaction='/signInDboy' formmethod='get') SignUp as Delivery Boy

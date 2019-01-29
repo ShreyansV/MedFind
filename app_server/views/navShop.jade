@@ -1,0 +1,15 @@
+extends layout
+
+block navigator
+  .col-xs-4
+    .button-group-vertical
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/showDetails', formmethod='get') Shop Details
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/editDetails', formmethod='get') Edit Shop Details
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/orderHistory', formmethod='get') Order History
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/addMedicines', formmethod='get') Add a new Medicine
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/#{shopDetails.shopMedicines._id}/delete', formmethod='delete') Delete a Medicine
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/showMedicines', formmethod='get') Medicines at Store
+      button.btn.btn-danger.center-block(formaction='/shop/#{shopDetails._id}/delete', formmethod='delete') Delete Account
+      button.btn.btn-primary.center-block(formaction='/shop/#{shopDetails._id}/logout', formmethod='get') Logout
+  .col-xs-8
+    block content
