@@ -170,8 +170,7 @@ var shopSchema = new mongoose.Schema({
   openingTime: [openingSchema],
   reviews: [reviewSchema],
   mapLink: {
-    type: String,
-    required: true
+    type: String
   },
   shopOrders: [orderSchema],
   shopLicense: {

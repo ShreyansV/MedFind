@@ -1,0 +1,23 @@
+extends layout
+
+block navigator
+  form.form-horizontal(action='', method='post')
+    - if(error='val')
+      .alert.alert-danger(role='alert') Error!!
+
+    .form-group
+      label.col-xs-3.control-label(for='name') Name
+      .col-xs-7
+        input#name.form-control(name='name')
+
+    .form-group
+      label.col-xs-3.control-label(for='password') Password
+      .col-xs-7
+        input#password.form-control(name='password', type='password')
+
+    .form-group
+      label.col-xs-3.control-label(for='email') Email
+      .col-xs-7
+        input#email.form-ontrol(name='email')
+
+  button.btn.btn-default.pull-right(name='signInBoy') SignUp

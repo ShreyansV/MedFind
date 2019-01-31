@@ -106,7 +106,7 @@ module.exports.orderHistory = function(req, res){
 
 /*login*/
 module.exports.login = function(req, res){
-  res.render('loginUser',{
+  res.render('login',{
 		title: 'MedFind'
 	});
 };

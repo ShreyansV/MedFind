@@ -1,0 +1,13 @@
+extends navBoy
+
+block content
+  #banner.page-header
+    .row.col-xs-12
+      h1=title
+
+  .row
+    label.col-xs-12.control-label Name: #{boyDetails.boyName}
+  .row
+    label.col-xs-12.control-label Email: #{boyDetails.boyEmailId}
+  .row
+    label.col-xs-12.control-label Grade: #{boyDetails.boyGrade}

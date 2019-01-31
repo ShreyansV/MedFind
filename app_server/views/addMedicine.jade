@@ -1,3 +1,19 @@
-extends navUser
+extends navShop
 
 block content
+  form.form-horizontal(action="", method="post", role='form')
+    - if(error="val")
+      .alert.alert-danger(role='alert') Error!!
+    .form-group
+      label.col-xs-3.control-label(for='name') Medicine Name
+      .col-xs-7
+        input#name.form-control(name='name')
+    .form-group
+      label.col-xs-3.control-label(for='company') Manufacturing Company
+      .col-xs-7
+        input#company.form-control(name='company')
+    .form-group
+      label.col-xs-3.control-label(for='price') Price/gm
+      .col-xs-7
+        input#company.form-control(name='price')
+  button.btn.btn-default.pull-right(name='addMedicine') Add Medicine

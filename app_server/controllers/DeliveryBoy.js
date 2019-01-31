@@ -111,7 +111,7 @@ module.exports.showPayslip = function(req, res){
 
 /*Login Page*/
 module.exports.login = function(req, res){
-  res.render('loginBoy',{
+  res.render('login',{
 		title: 'MedFind'
 	});
 };

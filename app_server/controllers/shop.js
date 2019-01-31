@@ -124,7 +124,7 @@ module.exports.showDetails = function(req, res){
 
 /*Login Page*/
 module.exports.login = function(req, res){
-	res.render('loginShop', {
+	res.render('login', {
 		title: 'MedFind',
 	});
 };

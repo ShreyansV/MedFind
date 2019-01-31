@@ -1,0 +1,18 @@
+extends navUser
+
+block content
+  #banner.page-header
+    .row
+      .col-xs-12
+        h1= title
+  .row
+    label.col-xs-10.control-label Name: #{userDetails.userName}
+  .row
+    label.col-xs-10.control-label Email: #{userDetails.userEmail}
+  .row
+    .col-xs-12
+      .row.list-group
+        each address in userDetails.userAddress
+          .col-xs-12.list-group
+            h4
+              label.col-xs-12.control-label= address

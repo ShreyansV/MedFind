@@ -1,0 +1,15 @@
+extends layout
+
+block navigator
+  form.form-horizontal(action='', method='post', role='form')
+    - if(error="val")
+      .alert.alert-danger(role='alert') Error!!
+    .form-group
+      label.col-xs-3(for='email') EmailID
+      .col-xs-7
+        input#email.form-control(name='email')
+     .form-group
+       label.col-xs-3(for='password') Password
+       .col-xs-7
+         input#password.form-control(name='password', type='password')
+  button.btn.btn-default.pull-right(name='login') Login

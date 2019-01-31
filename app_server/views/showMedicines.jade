@@ -1,0 +1,17 @@
+extends navShop
+
+block content
+  #banner.page-header
+    .row
+      .col-xs-12
+        h1= title
+  .row
+    .col-xs-12
+      .error=message
+      .row.list-group
+        each medicine in shopDetails.shopMedicines
+          .col-xs-12.list-group
+            h4
+              label.col-xs-5.control-label Name: #{medicine.medicineName}
+              label.col-xs-5.control-label.pull-right Company: #{medicine.manufacturingCompany}
+              label.col-xs-12.control-label Price: #{medicine.pricePerGram}
