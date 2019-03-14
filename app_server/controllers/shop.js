@@ -24,7 +24,7 @@ var _showError = function(req, res, statusCode){
 module.exports.orderHistory = function(req, res){
 	res.render('shopOrderHistory',{
 		title: 'MedFind',
-		order: shopDetails.shopOrders
+		shopOrders: shopDetails.shopOrders
 	});
 };
 
@@ -55,9 +55,9 @@ module.exports.create = function(req, res){
 
 /*Edit Shop Details*/
 module.exports.editDetails = function(req, res){
-  res.render('shopEditDetails',{
+  res.render('editShopDetails',{
 		title: 'MedFind',
-		shop: shopDetails
+		shopDetails: shopDetails
 	});
 };
 
@@ -67,7 +67,7 @@ module.exports.confirmDetails = function(req, res){
 	path = '/api/shop/' + req.params.shopid + '/confirmDetails';
 	requestOptions = {
 		url: apiOptions.server + path,
-		method: "POST"
+		method: "PUT"
 	};
 	request(requestOptions, function(err, response, body){
 		if(response.statusCode == 203){
@@ -118,9 +118,15 @@ module.exports.showMedicinesAtShop = function(req, res){
 module.exports.showDetails = function(req, res){
   res.render('shopShowDetails',{
 		title: 'MedFind',
-		shop: shopDetails
+		shopDetail: shopDetails
 	});
 };
+
+/*Logout Page*/
+module.exports.logout = function(req, res){
+	shopDetails = null;
+	res.redirect('/entry');
+}
 
 /*Login Page*/
 module.exports.login = function(req, res){
@@ -136,7 +142,7 @@ module.exports.checkLogin = function(req, res){
 		path = '/api/checkShopLogin';
 		requestOptions = {
 			url: apiOptions.server + path,
-			method: "GET"
+			method: "POST"
 		};
 		request(requestOptions, function(err, response, shop){
 			if(response.statusCode == 200){

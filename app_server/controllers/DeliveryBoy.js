@@ -20,6 +20,12 @@ var _showError = function(req, res, statusCode){
 	});
 };
 
+/*Logout Page*/
+module.exports.logout = function(req, res){
+	boyDetails = null;
+	res.redirect('/entry');
+}
+
 /*Create Delivery Boy*/
 module.exports.signIn = function(req, res){
   res.render('signInBoy',{

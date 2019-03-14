@@ -104,6 +104,12 @@ module.exports.orderHistory = function(req, res){
 	});
 };
 
+/*Logout Page*/
+module.exports.logout = function(req, res){
+	userDetails = null;
+	res.redirect('/entry');
+}
+
 /*login*/
 module.exports.login = function(req, res){
   res.render('login',{

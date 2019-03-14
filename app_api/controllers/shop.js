@@ -27,8 +27,8 @@ var theEarth = (function(){
 })();
 
 module.exports.checkLogin = function(req, res){
-  shop.findById().select('shopEmailId').exec(function(err, shop){
-    if(!shop){
+  shop.findById().exec(function(err, shopDetails){
+    if(!shopDetails){
       sendJsonResponse(res, 404, {"message": "Shop not found"});
       return;
     }
@@ -36,7 +36,10 @@ module.exports.checkLogin = function(req, res){
       sendJsonResponse(res, 400, err);
       return;
     }
-    sendJsonResponse(res, 200, user);
+    if(shopDetails.shopPassword == req.body.password)
+        sendJsonResponse(res, 200, shopDetails);
+    else
+        sendJsonResponse(res, 404, {"message": "Wrong Password"});
   });
 };
 

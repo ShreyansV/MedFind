@@ -1,0 +1,23 @@
+extends navShop
+
+block content
+  #banner.page-header
+    .row
+      .col-xs-12
+        h1= title
+  .row
+    .col-xs-12
+      .error=message
+      .row.list-group
+        each order in userDetails.userOrders
+          .col-xs-12.list-group
+            h4
+              label.col-xs-5.control-label Name: #{order.orderDate}
+              .row.list-group
+                each medicine in order.Medicines
+                  .col-xs-12.list-group
+                    h2
+                      label.col-xs-5.control-label.pull-right Company: #{order.Medicines}
+              label.col-xs-12.control-label Price: #{order.orderAmount}
+              label.col-xs-5.control-label Name: #{order.orderShopId}
+              label.col-xs-12.control-label Price: #{order.orderDeliveryAddress}

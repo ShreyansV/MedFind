@@ -12,8 +12,8 @@ router.get('/shops/:shopid', ctrlShop.shopReadOne);
 router.put('/shops/:shopid', ctrlShop.shopUpdateOne);
 router.delete('/shops/:shopid', ctrlShop.shopDeleteOne);
 router.post('/shop/:shopid/addMedicine', ctrlShop.addMedicines);
-router.post('/shop/:shopid/confirmDetails', ctrlShop.confirmDetails);
-router.get('/checkShopLogin', ctrlShop.checkLogin);
+router.put('/shop/:shopid/confirmDetails', ctrlShop.confirmDetails);
+router.post('/checkShopLogin', ctrlShop.checkLogin);
 router.get('/shop/:shopid/:medicineid/deleteMedicine', ctrlShop.deleteMedicine);
 
 // reviews
